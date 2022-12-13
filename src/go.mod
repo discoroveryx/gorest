@@ -3,6 +3,14 @@ module gorest
 go 1.19
 
 require (
+	app/dbstorage v0.0.0-00010101000000-000000000000 // indirect
+	app/user/actions v0.0.0-00010101000000-000000000000 // indirect
+	app/user/controllers v0.0.0-00010101000000-000000000000 // indirect
+	app/user/exceptions v0.0.0-00010101000000-000000000000 // indirect
+	app/user/handlers v0.0.0-00010101000000-000000000000 // indirect
+	app/user/models v0.0.0-00010101000000-000000000000 // indirect
+	app/user/repositories v0.0.0-00010101000000-000000000000 // indirect
+	app/user/transformers v0.0.0-00010101000000-000000000000 // indirect
 	github.com/cosmtrek/air v1.40.4 // indirect
 	github.com/creack/pty v1.1.18 // indirect
 	github.com/fatih/color v1.13.0 // indirect
@@ -39,6 +47,16 @@ require (
 
 replace app/dbstorage => ./app/dbstorage
 
-replace app/auth => ./app/auth
+replace app/user/actions => ./app/user/actions
 
-replace app/user => ./app/user
+replace app/user/models => ./app/user/models
+
+replace app/user/exceptions => ./app/user/exceptions
+
+replace app/user/handlers => ./app/user/handlers
+
+replace app/user/repositories => ./app/user/repositories
+
+replace app/user/transformers => ./app/user/transformers
+
+replace app/user/controllers => ./app/user/controllers

@@ -5,13 +5,15 @@ import (
 	"fmt"
 	"net/http"
 
-	"app/user"
+	"app/user/actions"
+	"app/user/exceptions"
+	"app/user/transformers"
 
 	"github.com/gin-gonic/gin"
 )
 
 func UserLoginController(c *gin.Context) {
-	var serializerData user.transformers.UserCreateTransformer
+	var serializerData transformers.UserCreateTransformer
 
 	if err := c.ShouldBindJSON(&serializerData); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -21,11 +23,11 @@ func UserLoginController(c *gin.Context) {
 	user, err := actions.UserCreateAction{}.Run(serializerData)
 	if err != nil {
 		switch {
-		case errors.Is(err, user.exceptions.MinLengthInvalidPasswordError), errors.Is(err, user.exceptions.PasswordComparingError):
+		case errors.Is(err, exceptions.MinLengthInvalidPasswordError), errors.Is(err, exceptions.PasswordComparingError):
 			c.JSON(http.StatusBadRequest, gin.H{"password": err.Error()})
-		case errors.Is(err, user.exceptions.UserExistsByNameError):
+		case errors.Is(err, exceptions.UserExistsByNameError):
 			c.JSON(http.StatusBadRequest, gin.H{"name": fmt.Sprintf("user with name='%s' exists", serializerData.Name)})
-		case errors.Is(err, user.exceptions.UserExistsByEmailError):
+		case errors.Is(err, exceptions.UserExistsByEmailError):
 			c.JSON(http.StatusBadRequest, gin.H{"name": fmt.Sprintf("user with email='%s' exists", serializerData.Email)})
 		}
 		return
