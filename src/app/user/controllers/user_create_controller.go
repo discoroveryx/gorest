@@ -13,6 +13,7 @@ import (
 )
 
 func UserCreateController(c *gin.Context) {
+	fmt.Println("create user")
 	var serializerData transformers.UserCreateTransformer
 
 	if err := c.ShouldBindJSON(&serializerData); err != nil {
