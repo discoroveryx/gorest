@@ -2,44 +2,38 @@ package controllers
 
 import (
 	"errors"
-	"fmt"
 	"net/http"
 
-	"app/user/actions"
-	"app/user/exceptions"
-	"app/user/transformers"
+	"app/auth/actions"
+	"app/auth/exceptions"
+	"app/auth/transformers"
 
 	"github.com/gin-gonic/gin"
 )
 
 func UserLoginController(c *gin.Context) {
-	var serializerData transformers.UserCreateTransformer
+	var serializerData transformers.UserLoginTransformer
 
 	if err := c.ShouldBindJSON(&serializerData); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	user, err := actions.UserCreateAction{}.Run(serializerData)
+	token, err := actions.UserLoginAction{}.Run(serializerData)
 	if err != nil {
 		switch {
-		case errors.Is(err, exceptions.MinLengthInvalidPasswordError), errors.Is(err, exceptions.PasswordComparingError):
-			c.JSON(http.StatusBadRequest, gin.H{"password": err.Error()})
-		case errors.Is(err, exceptions.UserExistsByNameError):
-			c.JSON(http.StatusBadRequest, gin.H{"name": fmt.Sprintf("user with name='%s' exists", serializerData.Name)})
-		case errors.Is(err, exceptions.UserExistsByEmailError):
-			c.JSON(http.StatusBadRequest, gin.H{"name": fmt.Sprintf("user with email='%s' exists", serializerData.Email)})
+		case errors.Is(err, exceptions.UserLoginFailedError):
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		}
 		return
 	}
 
 	// c.JSON(http.StatusCreated, gin.H{"status": "OK", "user_id": user.ID, "ctime": user.Ctime})
 
-	resp := user.transformers.UserCreateRespTransformer{
-		ID:        user.ID,
-		Name:      user.Name,
-		Email:     user.Email,
-		CreatedAt: user.CreatedAt,
+	resp := transformers.UserLoginRespTransformer{
+		// UserID: result.UserID,
+		// Token:  result.Token,
+		Token: token,
 	}
 	c.JSON(http.StatusCreated, resp)
 }
