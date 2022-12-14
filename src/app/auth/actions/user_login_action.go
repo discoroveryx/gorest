@@ -53,7 +53,11 @@ func (a UserLoginAction) Run(serializerData transformers.UserLoginTransformer) (
 		return "", exceptions.UserLoginFailedError
 	}
 
-	token := auth_handlers.CreateNewTokenByUser(user)
+	token, _ := auth_handlers.GenerateJWTByUserHandler(user.ID)
+
+	fmt.Printf("Type %T", user.ID)
+
+	fmt.Println("JWT = ", token)
 
 	return token, nil
 }

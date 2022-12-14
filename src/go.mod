@@ -28,16 +28,21 @@ replace app/auth/handlers => ./app/auth/handlers
 
 replace app/auth/exceptions => ./app/auth/exceptions
 
+replace app/auth/configs => ./app/auth/configs
+
 require (
 	app/auth/controllers v0.0.0-00010101000000-000000000000
+	app/auth/handlers v0.0.0-00010101000000-000000000000
 	app/dbstorage v0.0.0-00010101000000-000000000000
 	app/user/controllers v0.0.0-00010101000000-000000000000
+	github.com/gin-contrib/cors v1.4.0
+	github.com/gin-gonic/gin v1.8.1
 )
 
 require (
 	app/auth/actions v0.0.0-00010101000000-000000000000 // indirect
+	app/auth/configs v0.0.0-00010101000000-000000000000 // indirect
 	app/auth/exceptions v0.0.0-00010101000000-000000000000 // indirect
-	app/auth/handlers v0.0.0-00010101000000-000000000000 // indirect
 	app/auth/transformers v0.0.0-00010101000000-000000000000 // indirect
 	app/user/actions v0.0.0-00010101000000-000000000000 // indirect
 	app/user/exceptions v0.0.0-00010101000000-000000000000 // indirect
@@ -45,16 +50,12 @@ require (
 	app/user/models v0.0.0-00010101000000-000000000000 // indirect
 	app/user/repositories v0.0.0-00010101000000-000000000000 // indirect
 	app/user/transformers v0.0.0-00010101000000-000000000000 // indirect
-)
-
-require (
-	github.com/gin-contrib/cors v1.4.0
 	github.com/gin-contrib/sse v0.1.0 // indirect
-	github.com/gin-gonic/gin v1.8.1
 	github.com/go-playground/locales v0.14.0 // indirect
 	github.com/go-playground/universal-translator v0.18.0 // indirect
 	github.com/go-playground/validator/v10 v10.10.0 // indirect
 	github.com/goccy/go-json v0.9.7 // indirect
+	github.com/golang-jwt/jwt/v4 v4.4.3 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect

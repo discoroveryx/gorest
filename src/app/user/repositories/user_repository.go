@@ -26,6 +26,15 @@ func (u *UserRepository) UserExistsByName(name string) (models.UserModel, error)
 	return user, result.Error
 }
 
+func (u *UserRepository) GetUserById(id uint) (models.UserModel, error) {
+	user := models.UserModel{}
+
+	result := u.conn.Where("id = ?", id).First(&user)
+	// fmt.Println(result.Error)
+
+	return user, result.Error
+}
+
 func (u *UserRepository) UserExistsByEmail(email string) bool {
 	result := u.conn.Where("email = ?", email).First(&models.UserModel{})
 
