@@ -8,6 +8,10 @@ import (
 	"app/user/transformers"
 )
 
+// type UserCreateActioner interface {
+// 	Run(transformers.UserCreateTransformer) (models.UserModel, error)
+// }
+
 type UserCreateAction struct{}
 
 func (a UserCreateAction) Run(serializerData transformers.UserCreateTransformer) (models.UserModel, error) {
@@ -36,7 +40,6 @@ func (a UserCreateAction) Run(serializerData transformers.UserCreateTransformer)
 	if err == nil {
 		return user, exceptions.UserExistsByNameError
 	}
-
 
 	serializerData.Password, _ = handlers.PasswordHashingHandler(serializerData.Password)
 

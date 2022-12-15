@@ -4,16 +4,13 @@ import (
 	"fmt"
 	"net/http"
 
-	"app/user/handlers"
-
+	"app/user/actions"
 	"app/user/transformers"
 
 	"github.com/gin-gonic/gin"
 )
 
 func UserProfileController(c *gin.Context) {
-	// var user models.UserModel
-
 	if c.GetBool("Authenticated") == false {
 		c.AbortWithStatus(http.StatusUnauthorized)
 		return
@@ -21,10 +18,14 @@ func UserProfileController(c *gin.Context) {
 
 	userId := c.GetUint("UserId")
 
-	// Add actions fo this handler
-	user, _ := handlers.GetUserByIdHandler(userId)
+	user, err := actions.GetUserProfileAction{}.Run(userId)
 
-	serializerData := transformers.UserCProfileTransformer{
+	if err != nil {
+		c.AbortWithStatus(http.StatusUnauthorized)
+		return
+	}
+
+	serializerData := transformers.UserProfileTransformer{
 		ID:        user.ID,
 		Name:      user.Name,
 		Email:     user.Email,
