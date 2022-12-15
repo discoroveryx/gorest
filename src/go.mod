@@ -30,6 +30,8 @@ replace app/auth/exceptions => ./app/auth/exceptions
 
 replace app/auth/configs => ./app/auth/configs
 
+replace app/user/mytests => ./app/user/mytests
+
 require (
 	app/auth/controllers v0.0.0-00010101000000-000000000000
 	app/auth/handlers v0.0.0-00010101000000-000000000000
@@ -48,6 +50,7 @@ require (
 	app/user/exceptions v0.0.0-00010101000000-000000000000 // indirect
 	app/user/handlers v0.0.0-00010101000000-000000000000 // indirect
 	app/user/models v0.0.0-00010101000000-000000000000 // indirect
+	app/user/mytests v0.0.0-00010101000000-000000000000 // indirect
 	app/user/repositories v0.0.0-00010101000000-000000000000 // indirect
 	app/user/transformers v0.0.0-00010101000000-000000000000 // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
