@@ -14,7 +14,11 @@ type UserRepository struct {
 }
 
 func NewUserRepository() UserRepository {
-	return UserRepository{conn: dbstorage.NewDB().Db}
+	// db := dbstorage.NewDB(new(dbstorage.MyDb))
+	// return UserRepository{conn: db.GetConn()}
+	db := new(dbstorage.MyDb)
+	conn := dbstorage.NewDB1(db)
+	return UserRepository{conn: conn}
 }
 
 func (u *UserRepository) UserExistsByName(name string) (models.UserModel, error) {

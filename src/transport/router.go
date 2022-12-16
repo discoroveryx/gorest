@@ -12,7 +12,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func CORSMiddlware() gin.HandlerFunc {
+func CORSMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		c.Writer.Header().Set("Access-Control-Allow-Headers", "Origin,Content-Length,Content-Type")
 		c.Writer.Header().Set("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,DELETE,HEAD,OPTIONS")
@@ -21,7 +21,7 @@ func CORSMiddlware() gin.HandlerFunc {
 	}
 }
 
-func AuthMiddlware() gin.HandlerFunc {
+func AuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		authHeader := c.GetHeader("Authorization")
 		fmt.Println("authHeader", authHeader)
@@ -78,7 +78,7 @@ func SetupRouter() *gin.Engine {
 	// config.AllowOrigins = []string{"http://localhost:3000"}
 	// router.Use(cors.New(config))
 
-	router.Use(AuthMiddlware())
+	router.Use(AuthMiddleware())
 
 	// Routers
 	router.POST("/user/create/", user_controller.UserCreateController)

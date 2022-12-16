@@ -12,7 +12,11 @@ type UserCreateRepository struct {
 }
 
 func NewUserCreateRepository() UserCreateRepository {
-	return UserCreateRepository{conn: dbstorage.NewDB().Db}
+	// db := dbstorage.NewDB(new(dbstorage.MyDb))
+	// return UserCreateRepository{conn: db.GetConn()}
+	db := new(dbstorage.MyDb)
+	conn := dbstorage.NewDB1(db)
+	return UserCreateRepository{conn: conn}
 }
 
 func (u *UserCreateRepository) UserCreate(name string, email string, password string) models.UserModel {

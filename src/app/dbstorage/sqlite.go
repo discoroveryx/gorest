@@ -8,30 +8,27 @@ import (
 	"gorm.io/gorm"
 )
 
-type DB struct {
-	Db *gorm.DB
+type MyDbInter interface {
+	NewConn() *gorm.DB
 }
 
-func connDB(dbname string) *gorm.DB {
-	conn, err := gorm.Open(sqlite.Open(dbname), &gorm.Config{})
+func NewDB1(ss MyDbInter) *gorm.DB {
+	fmt.Println("\nNewDB1\n")
+	return ss.NewConn()
+}
+
+type MyDb struct{}
+
+func (d *MyDb) NewConn() *gorm.DB {
+	fmt.Println("\n")
+	fmt.Println("I am a NewConn")
+	fmt.Println("\n")
+	conn, err := gorm.Open(sqlite.Open("main.db"), &gorm.Config{})
 
 	if err != nil {
 		panic("failed to connect database")
 	}
+	conn.AutoMigrate(&models.UserModel{})
 
 	return conn
-}
-
-func NewDB() DB {
-	fmt.Println("NewDB")
-	return DB{Db: connDB("main.db")}
-}
-
-func NewTestDB() DB {
-	fmt.Println("NewTestDB")
-	return DB{Db: connDB("test_1.db")}
-}
-
-func (d *DB) Migrate() {
-	d.Db.AutoMigrate(&models.UserModel{})
 }
