@@ -3,11 +3,12 @@ services:
   gorest:
     environment:
       - JWTSecretKey=12345678
+      # - GOPATH=/home/root/project
     build: .
     ports:
       - "8080:8080"
     volumes:
-      - ./src:/home/root/project
+      - ./:/home/root/project
     stdin_open: true
     tty: true
-    command: "air -c .air_linux.toml"
+    command: "air -c src/.air_linux.toml"

@@ -3,6 +3,7 @@ FROM golang:1.19-alpine
 WORKDIR /home/root/project
 
 RUN apk add build-base
+RUN apk add git
 
 COPY ./src/go.mod ./
 # COPY ./src/go.sum ./
