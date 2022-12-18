@@ -24,7 +24,7 @@ func CORSMiddleware() gin.HandlerFunc {
 func AuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		authHeader := c.GetHeader("Authorization")
-		fmt.Println("authHeader", authHeader)
+		// fmt.Println("authHeader", authHeader)
 
 		if len(authHeader) < 7 {
 			return
@@ -49,10 +49,10 @@ func AuthMiddleware() gin.HandlerFunc {
 		if err != nil {
 			return
 		}
-		fmt.Println(err)
-		fmt.Println(claims)
+		// fmt.Println(err)
+		// fmt.Println(claims)
 
-		fmt.Printf("Type %T", claims.UserId)
+		// fmt.Printf("Type %T", claims.UserId)
 
 		c.Set("Authenticated", true)
 		c.Set("UserId", claims.UserId)

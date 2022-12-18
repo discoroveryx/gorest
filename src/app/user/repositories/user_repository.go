@@ -1,30 +1,35 @@
 package repositories
 
 import (
-	"app/dbstorage"
 	"app/user/models"
+	"dbstorage"
 	"errors"
 	"fmt"
+	"myconfig"
 
 	"gorm.io/gorm"
 )
 
 type UserRepository struct {
-	conn *gorm.DB
+	db *gorm.DB
 }
 
 func NewUserRepository() UserRepository {
 	// db := dbstorage.NewDB(new(dbstorage.MyDb))
 	// return UserRepository{conn: db.GetConn()}
-	db := new(dbstorage.MyDb)
-	conn := dbstorage.NewDB1(db)
-	return UserRepository{conn: conn}
+	myconf := myconfig.GetMyConfig()
+	dbname := myconf.DBName
+	fmt.Println("\nUserRepository dbname\n", dbname)
+
+	db := new(dbstorage.DB)
+	cursor := db.Connect()
+	return UserRepository{db: cursor}
 }
 
 func (u *UserRepository) UserExistsByName(name string) (models.UserModel, error) {
 	user := models.UserModel{}
 
-	result := u.conn.Where("name = ?", name).Take(&user)
+	result := u.db.Where("name = ?", name).Take(&user)
 	// fmt.Println(result.Error)
 
 	return user, result.Error
@@ -33,14 +38,14 @@ func (u *UserRepository) UserExistsByName(name string) (models.UserModel, error)
 func (u *UserRepository) GetUserById(id uint) (models.UserModel, error) {
 	user := models.UserModel{}
 
-	result := u.conn.Where("id = ?", id).First(&user)
+	result := u.db.Where("id = ?", id).First(&user)
 	// fmt.Println(result.Error)
 
 	return user, result.Error
 }
 
 func (u *UserRepository) UserExistsByEmail(email string) bool {
-	result := u.conn.Where("email = ?", email).First(&models.UserModel{})
+	result := u.db.Where("email = ?", email).First(&models.UserModel{})
 
 	fmt.Println(result.Error)
 

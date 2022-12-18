@@ -1,20 +1,16 @@
 package main
 
 import (
-	"app/dbstorage"
-	"fmt"
+	"dbstorage"
 
 	"transport"
 )
 
 func main() {
 	// Init Database
-	fmt.Println("I am the main")
-	db := new(dbstorage.MyDb)
-	dbstorage.NewDB1(db)
-
-	// db := dbstorage.NewDB(new(dbstorage.MyDb))
-	// db.Migrate()
+	db := new(dbstorage.DB)
+	db.Connect()
+	db.Migrate()
 
 	// Init http
 	router := transport.SetupRouter()

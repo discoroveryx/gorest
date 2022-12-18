@@ -1,9 +1,10 @@
 package user
 
 import (
-	"app/dbstorage"
 	"bytes"
+	"dbstorage"
 	"fmt"
+	"myconfig"
 	"testing"
 
 	"net/http"
@@ -12,8 +13,6 @@ import (
 	"github.com/stretchr/testify/suite"
 
 	"transport"
-
-	"github.com/golang/mock/gomock"
 )
 
 type CreateUserTestSuite struct {
@@ -23,12 +22,19 @@ type CreateUserTestSuite struct {
 
 func (suite *CreateUserTestSuite) SetupTest() {
 	// suite.myAddExpected = 6
-	// db := dbstorage.NewDB(new(dbstorage.MyMockDb))
-	// db.Migrate()
+
+	myconf := myconfig.GetMyConfig()
+	dbname := myconf.DBName
+	fmt.Println("\ndbname\n", dbname)
+
+	myconf.DBName = "test_1.db"
+
+	db := new(dbstorage.DB)
+	db.Connect()
 
 }
 
-func (suite *CreateUserTestSuite) TestCreateUser() {
+func (suite *CreateUserTestSuite) TestCreateUser400() {
 	router := transport.SetupRouter()
 
 	jsonBody := []byte(`{
@@ -43,23 +49,11 @@ func (suite *CreateUserTestSuite) TestCreateUser() {
 	req, _ := http.NewRequest("POST", "/user/create/", bodyReader)
 	router.ServeHTTP(w, req)
 
-	// suite.Equal(400, w.Code)
-	fmt.Println(w.Body.String())
+	suite.Equal(400, w.Code)
+	// fmt.Println(w.Body.String())
 	// suite.Equal("pong", w.Body.String())
 }
 
 func TestRunner(t *testing.T) {
-	// db := dbstorage.NewDB(new(dbstorage.MyMockDb))
-
-	ctrl := gomock.NewController(t)
-	defer ctrl.Finish()
-
-	m := dbstorage.NewMockMyDbInter(ctrl)
-	m.
-		EXPECT().
-		NewConn().
-		Return().
-		Times(0)
-
 	suite.Run(t, new(CreateUserTestSuite))
 }

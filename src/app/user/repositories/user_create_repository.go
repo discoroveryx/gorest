@@ -1,26 +1,31 @@
 package repositories
 
 import (
-	"app/dbstorage"
 	"app/user/models"
+	"dbstorage"
+	"fmt"
+	"myconfig"
 
 	"gorm.io/gorm"
 )
 
 type UserCreateRepository struct {
-	conn *gorm.DB
+	db *gorm.DB
 }
 
 func NewUserCreateRepository() UserCreateRepository {
 	// db := dbstorage.NewDB(new(dbstorage.MyDb))
 	// return UserCreateRepository{conn: db.GetConn()}
-	db := new(dbstorage.MyDb)
-	conn := dbstorage.NewDB1(db)
-	return UserCreateRepository{conn: conn}
+	myconf := myconfig.GetMyConfig()
+	dbname := myconf.DBName
+	fmt.Println("\nUserCreate dbname\n", dbname)
+
+	db := new(dbstorage.DB)
+	cursor := db.Connect()
+	return UserCreateRepository{db: cursor}
 }
 
 func (u *UserCreateRepository) UserCreate(name string, email string, password string) models.UserModel {
-
 	user := models.UserModel{
 		Name:     name,
 		Email:    email,
@@ -28,6 +33,6 @@ func (u *UserCreateRepository) UserCreate(name string, email string, password st
 		// Ctime:    time.Now(),
 	}
 
-	u.conn.Create(&user)
+	u.db.Create(&user)
 	return user
 }

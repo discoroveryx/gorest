@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"errors"
-	"fmt"
 	"net/http"
 
 	"app/user/actions"
@@ -13,7 +12,7 @@ import (
 )
 
 func UserCreateController(c *gin.Context) {
-	fmt.Println("create user")
+	// fmt.Println("create user")
 	var serializerData transformers.UserCreateTransformer
 
 	if err := c.ShouldBindJSON(&serializerData); err != nil {
