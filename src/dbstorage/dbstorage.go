@@ -21,6 +21,9 @@ func (d *DB) Connect() *gorm.DB {
 	}
 
 	conn := OpenSqlite(dbname)
+
+	d.db = conn
+
 	return conn
 }
 
