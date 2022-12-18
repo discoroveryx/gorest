@@ -28,6 +28,7 @@ type CreateUserTestSuite struct {
 func (suite *CreateUserTestSuite) SetupTest() {
 	// suite.myAddExpected = 6
 
+	// TODO Move it to TestSuit, to follow to DRY
 	conf := config.GetProjectConf()
 	conf.DBName = "test_1.db"
 
