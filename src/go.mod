@@ -32,14 +32,14 @@ replace app/user/myte => ./app/user/myte
 
 replace dbstorage => ./dbstorage
 
-replace myconfig => ./myconfig
+replace config => ./config
 
 replace transport => ./transport
 
+replace tests => ./tests
+
 require (
 	dbstorage v0.0.0-00010101000000-000000000000
-	github.com/stretchr/testify v1.8.1
-	myconfig v0.0.0-00010101000000-000000000000
 	transport v0.0.0-00010101000000-000000000000
 )
 
@@ -57,7 +57,7 @@ require (
 	app/user/models v0.0.0-00010101000000-000000000000 // indirect
 	app/user/repositories v0.0.0-00010101000000-000000000000 // indirect
 	app/user/transformers v0.0.0-00010101000000-000000000000 // indirect
-	github.com/davecgh/go-spew v1.1.1 // indirect
+	config v0.0.0-00010101000000-000000000000 // indirect
 	github.com/gin-contrib/cors v1.4.0 // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
 	github.com/gin-gonic/gin v1.8.1 // indirect
@@ -75,7 +75,6 @@ require (
 	github.com/modern-go/concurrent v0.0.0-20180228061459-e0a39a4cb421 // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/pelletier/go-toml/v2 v2.0.1 // indirect
-	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/ugorji/go/codec v1.2.7 // indirect
 	golang.org/x/crypto v0.0.0-20210711020723-a769d52b0f97 // indirect
 	golang.org/x/net v0.0.0-20210226172049-e18ecbb05110 // indirect
@@ -83,7 +82,6 @@ require (
 	golang.org/x/text v0.3.6 // indirect
 	google.golang.org/protobuf v1.28.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
-	gopkg.in/yaml.v3 v3.0.1 // indirect
 	gorm.io/driver/sqlite v1.4.3 // indirect
 	gorm.io/gorm v1.24.2 // indirect
 )

@@ -4,8 +4,6 @@ import (
 	"app/user/models"
 	"dbstorage"
 	"errors"
-	"fmt"
-	"myconfig"
 
 	"gorm.io/gorm"
 )
@@ -15,12 +13,6 @@ type UserRepository struct {
 }
 
 func NewUserRepository() UserRepository {
-	// db := dbstorage.NewDB(new(dbstorage.MyDb))
-	// return UserRepository{conn: db.GetConn()}
-	myconf := myconfig.GetMyConfig()
-	dbname := myconf.DBName
-	fmt.Println("\nUserRepository dbname\n", dbname)
-
 	db := new(dbstorage.DB)
 	cursor := db.Connect()
 	return UserRepository{db: cursor}
@@ -47,7 +39,7 @@ func (u *UserRepository) GetUserById(id uint) (models.UserModel, error) {
 func (u *UserRepository) UserExistsByEmail(email string) bool {
 	result := u.db.Where("email = ?", email).First(&models.UserModel{})
 
-	fmt.Println(result.Error)
+	// fmt.Println(result.Error)
 
 	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
 		return false

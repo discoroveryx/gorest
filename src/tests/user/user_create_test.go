@@ -1,46 +1,52 @@
 package user
 
 import (
+	"app/user/handlers"
 	"app/user/models"
+	"app/user/repositories"
 	"app/user/transformers"
 	"bytes"
+	"config"
 	"dbstorage"
 	"encoding/json"
-	"fmt"
-	"myconfig"
 	"testing"
 
 	"net/http"
 	"net/http/httptest"
 
 	"github.com/stretchr/testify/suite"
+	"gorm.io/gorm"
 
 	"transport"
 )
 
 type CreateUserTestSuite struct {
 	suite.Suite
-	// myAddExpected int
+	db *gorm.DB
 }
 
 func (suite *CreateUserTestSuite) SetupTest() {
 	// suite.myAddExpected = 6
 
-	myconf := myconfig.GetMyConfig()
-	dbname := myconf.DBName
-	fmt.Println("\ndbname\n", dbname)
-
-	myconf.DBName = "test_1.db"
+	conf := config.GetProjectConf()
+	conf.DBName = "test_1.db"
 
 	db := new(dbstorage.DB)
-	cursor := db.Connect()
-
-	cursor.Migrator().DropTable(&models.UserModel{})
-
+	suite.db = db.Connect()
 	db.Migrate()
 }
 
+func (suite *CreateUserTestSuite) TearDownTest() {
+	suite.db.Migrator().DropTable(&models.UserModel{})
+}
+
 func (suite *CreateUserTestSuite) TestUserCreate400() {
+	handlers.CreateNewUserHandler{Repository: repositories.NewUserCreateRepository()}.Run(
+		"vasya",
+		"vasya@vasya.com",
+		"12345678",
+	)
+
 	router := transport.SetupRouter()
 
 	jsonBody := []byte(`{

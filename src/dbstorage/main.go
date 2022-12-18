@@ -3,7 +3,7 @@ package dbstorage
 import (
 	"app/user/models"
 
-	"myconfig"
+	"config"
 
 	"gorm.io/gorm"
 )
@@ -13,9 +13,9 @@ type DB struct {
 }
 
 func (d *DB) Connect() *gorm.DB {
-	myconf := myconfig.GetMyConfig()
-	dbname := myconf.DBName
-	dbengine := myconf.DBEngine
+	conf := config.GetProjectConf()
+	dbname := conf.DBName
+	dbengine := conf.DBEngine
 
 	if dbengine != "sqlite" {
 	}

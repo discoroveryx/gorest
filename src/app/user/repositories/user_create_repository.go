@@ -3,8 +3,6 @@ package repositories
 import (
 	"app/user/models"
 	"dbstorage"
-	"fmt"
-	"myconfig"
 
 	"gorm.io/gorm"
 )
@@ -14,12 +12,6 @@ type UserCreateRepository struct {
 }
 
 func NewUserCreateRepository() UserCreateRepository {
-	// db := dbstorage.NewDB(new(dbstorage.MyDb))
-	// return UserCreateRepository{conn: db.GetConn()}
-	myconf := myconfig.GetMyConfig()
-	dbname := myconf.DBName
-	fmt.Println("\nUserCreate dbname\n", dbname)
-
 	db := new(dbstorage.DB)
 	cursor := db.Connect()
 	return UserCreateRepository{db: cursor}
