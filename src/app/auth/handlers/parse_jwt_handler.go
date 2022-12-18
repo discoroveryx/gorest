@@ -11,6 +11,7 @@ import (
 func ParseJWTHandler(bearerValue string) (*configs.JWTClaims, error) {
 
 	JWTSecretKey := configs.GetJWTSecretKey()
+	fmt.Println("JWTSecretKey", JWTSecretKey)
 
 	// token, _ := jwt.ParseWithClaims(bearerValue, &configs.JWTClaims{}, func(token *jwt.Token) (interface{}, error) {
 	// 	// Don't forget to validate the alg is what you expect:

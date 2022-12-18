@@ -1,6 +1,8 @@
 version: "3.9"
 services:
   gorest:
+    environment:
+      - JWTSecretKey=12345678
     build: .
     ports:
       - "8080:8080"
