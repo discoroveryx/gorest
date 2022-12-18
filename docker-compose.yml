@@ -8,4 +8,4 @@ services:
       - ./src:/home/root/project
     stdin_open: true
     tty: true
-    command: "air"
+    command: "air -c .air_linux.toml"
