@@ -64,7 +64,6 @@ func (suite *CreateUserTestSuite) TestUserCreate400() {
 
 	suite.Equal(400, w.Code)
 	// fmt.Println(w.Body.String())
-	// suite.Equal("pong", w.Body.String())
 }
 
 func (suite *CreateUserTestSuite) TestUserCreate201() {

@@ -1,0 +1,11 @@
+version: "3.9"
+services:
+  gorest:
+    build: .
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./src:/home/root/project
+    stdin_open: true
+    tty: true
+    command: "air"
