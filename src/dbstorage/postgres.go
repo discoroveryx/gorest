@@ -8,9 +8,10 @@ import (
 )
 
 func OpenPostgres(dbname string) *gorm.DB {
+	// fmt.Println("OpenPostgres", dbname)
 	CreateDatabaseIfNotExists(dbname)
 
-	dsn := "host=pg user=main_1 dbname=" + dbname + " port=5432 sslmode=disable TimeZone=Asia/Novosibirsk"
+	dsn := fmt.Sprintf("host=pg user=main_1 dbname=%s port=5432 sslmode=disable TimeZone=Asia/Novosibirsk", dbname)
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
 	if err != nil {
@@ -21,7 +22,7 @@ func OpenPostgres(dbname string) *gorm.DB {
 }
 
 func CreateDatabaseIfNotExists(dbname string) {
-	fmt.Print("\nCreateDatabaseIfNotExists\n")
+	// fmt.Println("CreateDatabaseIfNotExists", dbname)
 	dsn := "host=pg user=main_1 port=5432 sslmode=disable TimeZone=Asia/Novosibirsk"
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
@@ -34,13 +35,13 @@ func CreateDatabaseIfNotExists(dbname string) {
 
 	var result Result
 
-	stmt := fmt.Sprintf("SELECT datname FROM pg_database WHERE datname = '%s12222';", dbname)
+	stmt := fmt.Sprintf("SELECT datname FROM pg_database WHERE datname = '%s';", dbname)
 	db.Raw(stmt).Scan(&result)
-	// fmt.Print("\nRes", result)
+	// fmt.Print("\nResult", result)
 
-	if result != (Result{}) {
-		query := fmt.Sprintf("CREATE DATABASE %s", dbname)
+	if result == (Result{}) {
+		query := fmt.Sprintf("CREATE DATABASE %s;", dbname)
 		// fmt.Print(query)
-		db.Raw(query)
+		db.Exec(query)
 	}
 }
