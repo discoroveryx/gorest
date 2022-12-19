@@ -1,15 +1,12 @@
 package user
 
 import (
-	"app/user/handlers"
 	"app/user/models"
-	"app/user/repositories"
 	"app/user/transformers"
 	"bytes"
-	"config"
-	"dbstorage"
 	"encoding/json"
 	"testing"
+	"tests/fixtures"
 
 	"net/http"
 	"net/http/httptest"
@@ -23,18 +20,11 @@ import (
 type CreateUserTestSuite struct {
 	suite.Suite
 	db *gorm.DB
+	fixtures.SuiteFixtures
 }
 
 func (suite *CreateUserTestSuite) SetupTest() {
-	// suite.myAddExpected = 6
-
-	// TODO Move it to TestSuit, to follow to DRY
-	conf := config.GetProjectConf()
-	conf.DBName = "test_1"
-
-	db := new(dbstorage.DB)
-	suite.db = db.Connect()
-	db.Migrate()
+	suite.db = suite.MockDatabase()
 }
 
 func (suite *CreateUserTestSuite) TearDownTest() {
@@ -42,11 +32,7 @@ func (suite *CreateUserTestSuite) TearDownTest() {
 }
 
 func (suite *CreateUserTestSuite) TestUserCreate400() {
-	handlers.CreateNewUserHandler{Repository: repositories.NewUserCreateRepository()}.Run(
-		"vasya",
-		"vasya@vasya.com",
-		"12345678",
-	)
+	suite.CreateNewUserFixture()
 
 	router := transport.SetupRouter()
 
@@ -102,6 +88,6 @@ func (suite *CreateUserTestSuite) TestUserCreate201() {
 	suite.Equal(responseData, expectedData)
 }
 
-func TestRunner(t *testing.T) {
+func TestRunnerUserCreate(t *testing.T) {
 	suite.Run(t, new(CreateUserTestSuite))
 }

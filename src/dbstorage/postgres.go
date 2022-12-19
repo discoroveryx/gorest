@@ -9,6 +9,7 @@ import (
 
 func OpenPostgres(dbname string) *gorm.DB {
 	// fmt.Println("OpenPostgres", dbname)
+	// TODO check test env
 	CreateDatabaseIfNotExists(dbname)
 
 	dsn := fmt.Sprintf("host=pg user=main_1 dbname=%s port=5432 sslmode=disable TimeZone=Asia/Novosibirsk", dbname)

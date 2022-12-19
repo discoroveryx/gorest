@@ -38,6 +38,8 @@ replace transport => ./transport
 
 replace tests => ./tests
 
+replace tests/fixtures => ./tests/fixtures
+
 require (
 	dbstorage v0.0.0-00010101000000-000000000000
 	transport v0.0.0-00010101000000-000000000000
@@ -93,4 +95,5 @@ require (
 	gorm.io/driver/postgres v1.4.5 // indirect
 	gorm.io/driver/sqlite v1.4.3 // indirect
 	gorm.io/gorm v1.24.2 // indirect
+	tests/fixtures v0.0.0-00010101000000-000000000000 // indirect
 )
