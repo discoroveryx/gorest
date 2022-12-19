@@ -9,8 +9,8 @@ var conf *ProjectConf
 
 func init() {
 	conf = &ProjectConf{
-		DBName:   "main_1.db",
-		DBEngine: "sqlite",
+		DBName:   "main_1",
+		DBEngine: "postgres",
 	}
 }
 

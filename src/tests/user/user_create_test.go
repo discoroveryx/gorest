@@ -30,7 +30,7 @@ func (suite *CreateUserTestSuite) SetupTest() {
 
 	// TODO Move it to TestSuit, to follow to DRY
 	conf := config.GetProjectConf()
-	conf.DBName = "test_1.db"
+	conf.DBName = "test_1"
 
 	db := new(dbstorage.DB)
 	suite.db = db.Connect()

@@ -1,4 +1,6 @@
 version: "3.9"
+volumes:
+  pg_data:
 services:
   gorest:
     environment:
@@ -9,6 +11,20 @@ services:
       - "8080:8080"
     volumes:
       - ./:/home/root/project
+    depends_on:
+      - pg
     stdin_open: true
     tty: true
     command: "air -c src/.air_linux.toml"
+  pg:
+    image: "postgres:11"
+    restart: always
+    environment:
+      POSTGRES_DB: main_1
+      POSTGRES_USER: main_1
+      # POSTGRES_PASSWORD: main_1
+      POSTGRES_HOST_AUTH_METHOD: trust
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
