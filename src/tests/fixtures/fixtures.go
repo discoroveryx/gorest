@@ -14,12 +14,14 @@ import (
 	"gorm.io/gorm"
 )
 
+const DatabaseTestName = "test_1"
+
 type SuiteFixtures struct {
 }
 
 func (s *SuiteFixtures) MockDatabase() *gorm.DB {
 	conf := config.GetProjectConf()
-	conf.DBName = "test_1"
+	conf.DBName = DatabaseTestName
 
 	db := new(dbstorage.DB)
 	cursor := db.Connect()
