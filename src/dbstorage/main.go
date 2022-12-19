@@ -19,15 +19,13 @@ func (d *DB) Connect() *gorm.DB {
 
 	var conn *gorm.DB
 
-	if dbengine != "sqlite" {
+	if dbengine == "sqlite" {
 		conn = OpenSqlite(dbname + ".db")
 	}
 
-	if dbengine != "postgres" {
+	if dbengine == "postgres" {
 		conn = OpenPostgres(dbname)
 	}
-
-	// conn := OpenSqlite(dbname + ".db")
 
 	d.db = conn
 
