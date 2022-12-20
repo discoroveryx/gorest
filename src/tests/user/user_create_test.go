@@ -85,7 +85,7 @@ func (suite *CreateUserTestSuite) TestUserCreate201() {
 		CreatedAt: responseData.CreatedAt,
 	}
 
-	suite.Equal(responseData, expectedData)
+	suite.Equal(&responseData, &expectedData)
 }
 
 func TestRunnerUserCreate(t *testing.T) {

@@ -2,6 +2,8 @@ package user
 
 import (
 	"app/user/models"
+	"app/user/transformers"
+	"encoding/json"
 	"testing"
 
 	"net/http"
@@ -43,44 +45,32 @@ func (suite *GetUserProfileTestSuite) TestGetUserProfile200() {
 
 	suite.Equal(200, response.StatusCode)
 
-	// var responseData transformers.UserCreateRespTransformer
+	var responseData transformers.UserProfileTransformer
 
-	// json.Unmarshal(recorder.Body.Bytes(), &responseData)
+	json.Unmarshal(recorder.Body.Bytes(), &responseData)
 
-	// expectedData := transformers.UserCreateRespTransformer{
-	// 	ID:        responseData.ID,
-	// 	Name:      "vasya",
-	// 	Email:     "vasya@vasya.com",
-	// 	CreatedAt: responseData.CreatedAt,
-	// }
+	expectedData := transformers.UserProfileTransformer{
+		ID:        responseData.ID,
+		Name:      "vasya",
+		Email:     "vasya@vasya.com",
+		CreatedAt: responseData.CreatedAt,
+	}
 
-	// suite.Equal(responseData, expectedData)
+	suite.Equal(&responseData, &expectedData)
 }
 
-// func (suite *GetUserProfileTestSuite) TestUserCreate400() {
-// 	handlers.CreateNewUserHandler{Repository: repositories.NewUserCreateRepository()}.Run(
-// 		"vasya",
-// 		"vasya@vasya.com",
-// 		"12345678",
-// 	)
+func (suite *GetUserProfileTestSuite) TestGetUserProfile401() {
+	router := transport.SetupRouter()
 
-// 	router := transport.SetupRouter()
+	recorder := httptest.NewRecorder()
+	request, _ := http.NewRequest("GET", "/user/profile/", nil)
 
-// 	jsonBody := []byte(`{
-// 		"name": "vasya",
-// 		"email": "vasya@vasya.com",
-// 		"password": "12345678",
-// 		"password_repeated": "12345678"
-// 	}`)
-// 	bodyReader := bytes.NewReader(jsonBody)
+	router.ServeHTTP(recorder, request)
 
-// 	w := httptest.NewRecorder()
-// 	req, _ := http.NewRequest("POST", "/user/create/", bodyReader)
-// 	router.ServeHTTP(w, req)
+	response := recorder.Result()
 
-// 	suite.Equal(400, w.Code)
-// 	// fmt.Println(w.Body.String())
-// }
+	suite.Equal(401, response.StatusCode)
+}
 
 func TestRunnerUserGetProfile(t *testing.T) {
 	suite.Run(t, new(GetUserProfileTestSuite))
