@@ -126,6 +126,39 @@ func (suite *UserLoginTestSuite) TestUserLoginNamePassword400() {
 	suite.Equal(&responseError, &expectedError)
 }
 
+func (suite *UserLoginTestSuite) TestUserLoginNotVerified400() {
+	// TODO it
+	// suite.CreateNewUserFixture()
+
+	// router := transport.SetupRouter()
+
+	// userLoginData := &transformers.UserLoginTransformer{
+	// 	Name:     "vasya",
+	// 	Password: "12345678",
+	// }
+
+	// jsonBody, _ := json.Marshal(userLoginData)
+	// bodyReader := bytes.NewReader(jsonBody)
+
+	// recorder := httptest.NewRecorder()
+	// request, _ := http.NewRequest("POST", "/user/login/", bodyReader)
+
+	// router.ServeHTTP(recorder, request)
+
+	// response := recorder.Result()
+
+	// suite.Equal(400, response.StatusCode)
+	// fmt.Println(recorder.Body.String())
+
+	// responseError := struct{ Error string }{}
+
+	// json.Unmarshal(recorder.Body.Bytes(), &responseError)
+
+	// expectedError := struct{ Error string }{Error: "user_login_failed"}
+
+	// suite.Equal(&responseError, &expectedError)
+}
+
 func TestRunnerUserLogin(t *testing.T) {
 	suite.Run(t, new(UserLoginTestSuite))
 }
