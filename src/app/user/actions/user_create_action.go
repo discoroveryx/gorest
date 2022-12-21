@@ -49,5 +49,11 @@ func (a UserCreateAction) Run(serializerData transformers.UserCreateTransformer)
 		serializerData.Password,
 	)
 
+	verificationCode := handlers.GenerateVerificationCodeHandler()
+
+	handlers.UserSaveVerificationCodeHandler(user, verificationCode)
+
+	handlers.SendVerificationCodeByEmailHandler(verificationCode, user.Email)
+
 	return user, nil
 }

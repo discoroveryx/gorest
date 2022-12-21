@@ -22,6 +22,7 @@ func (u *UserCreateRepository) UserCreate(name string, email string, password st
 		Name:     name,
 		Email:    email,
 		Password: password,
+		Verified: false,
 		// Ctime:    time.Now(),
 	}
 

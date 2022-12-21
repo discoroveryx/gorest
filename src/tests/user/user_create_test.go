@@ -1,6 +1,7 @@
 package user
 
 import (
+	"app/user/handlers"
 	"app/user/models"
 	"app/user/transformers"
 	"bytes"
@@ -74,18 +75,22 @@ func (suite *CreateUserTestSuite) TestUserCreate201() {
 
 	suite.Equal(201, response.StatusCode)
 
-	var responseData transformers.UserCreateRespTransformer
+	var responseData transformers.UserCreateResponseTransformer
 
 	json.Unmarshal(recorder.Body.Bytes(), &responseData)
 
-	expectedData := transformers.UserCreateRespTransformer{
+	expectedData := transformers.UserCreateResponseTransformer{
 		ID:        responseData.ID,
 		Name:      "vasya",
 		Email:     "vasya@vasya.com",
 		CreatedAt: responseData.CreatedAt,
+		Verified:  false,
 	}
 
 	suite.Equal(&responseData, &expectedData)
+
+	userVerified, _ := handlers.IsUserVerifiedByIdHandler(responseData.ID)
+	suite.Equal(userVerified, false)
 }
 
 func TestRunnerUserCreate(t *testing.T) {

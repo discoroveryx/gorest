@@ -126,6 +126,6 @@ func (suite *UserLoginTestSuite) TestUserLoginNamePassword400() {
 	suite.Equal(&responseError, &expectedError)
 }
 
-func TestRunnerUserGetProfile(t *testing.T) {
+func TestRunnerUserLogin(t *testing.T) {
 	suite.Run(t, new(UserLoginTestSuite))
 }

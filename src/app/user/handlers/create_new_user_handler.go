@@ -11,7 +11,7 @@ type CreateNewUserHandler struct {
 }
 
 func (s CreateNewUserHandler) Run(name string, email string, password string) models.UserModel {
-	user_repo := s.Repository
+	userRepo := s.Repository
 
-	return user_repo.UserCreate(name, email, password)
+	return userRepo.UserCreate(name, email, password)
 }

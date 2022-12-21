@@ -47,3 +47,24 @@ func (u *UserRepository) UserExistsByEmail(email string) bool {
 
 	return true
 }
+
+func (u *UserRepository) UpdateVerificationCode(user models.UserModel, code string) (models.UserModel, error) {
+	user.VerificationCode = code
+	result := u.db.Save(&user)
+	// fmt.Println(result.Error)
+
+	return user, result.Error
+}
+
+func (u *UserRepository) IsUserVerifiedById(id uint) (bool, error) {
+	user := models.UserModel{}
+
+	result := u.db.Where("id = ?", id).First(&user)
+
+	if result.Error != nil {
+		return false, result.Error
+	}
+	// fmt.Println(result.Error)
+
+	return user.Verified, result.Error
+}

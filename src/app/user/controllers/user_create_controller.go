@@ -37,7 +37,7 @@ func UserCreateController(c *gin.Context) {
 
 	// c.JSON(http.StatusCreated, gin.H{"status": "OK", "user_id": user.ID, "ctime": user.Ctime})
 
-	resp := transformers.UserCreateRespTransformer{
+	resp := transformers.UserCreateResponseTransformer{
 		ID:        user.ID,
 		Name:      user.Name,
 		Email:     user.Email,
