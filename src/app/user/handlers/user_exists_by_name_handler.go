@@ -6,9 +6,9 @@ import (
 )
 
 func UserExistsByNameHandler(name string) (models.UserModel, error) {
-	user_repo := repositories.NewUserRepository()
+	userRepo := repositories.NewUserRepository()
 
-	user, err := user_repo.UserExistsByName(name)
+	user, err := userRepo.UserExistsByName(name)
 
 	return user, err
 }

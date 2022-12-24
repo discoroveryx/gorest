@@ -5,7 +5,7 @@ import (
 )
 
 func UserExistsByEmailHandler(email string) bool {
-	user_repo := repositories.NewUserRepository()
+	userRepo := repositories.NewUserRepository()
 
-	return user_repo.UserExistsByEmail(email)
+	return userRepo.UserExistsByEmail(email)
 }
