@@ -68,3 +68,19 @@ func (u *UserRepository) IsUserVerifiedById(id uint) (bool, error) {
 
 	return user.Verified, result.Error
 }
+
+func (u *UserRepository) UserVerify(userId uint, verificationCode string) (models.UserModel, error) {
+	user := models.UserModel{}
+
+	result := u.db.Where("id = ?", userId).First(&user)
+
+	if result.Error != nil {
+		return user, result.Error
+	}
+	// fmt.Println(result.Error)
+
+	user.Verified = true
+	result = u.db.Save(&user)
+
+	return user, result.Error
+}

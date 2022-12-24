@@ -127,7 +127,6 @@ func (suite *UserLoginTestSuite) TestUserLoginNamePassword400() {
 }
 
 func (suite *UserLoginTestSuite) TestUserLoginNotVerified400() {
-	// TODO it
 	suite.CreateNewUserFixture(false)
 
 	router := transport.SetupRouter()

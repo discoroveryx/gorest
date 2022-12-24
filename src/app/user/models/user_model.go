@@ -8,6 +8,6 @@ type UserModel struct {
 	Email            string
 	Password         string
 	VerificationCode string
-	Verified	bool
+	Verified         bool
 	// Ctime    time.Time
 }
