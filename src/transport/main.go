@@ -27,6 +27,7 @@ func SetupRouter() *gin.Engine {
 	router.POST("/user/create/", user_controller.UserCreateController)
 	router.POST("/user/login/", auth_controller.UserLoginController)
 	router.GET("/user/profile/", user_controller.UserProfileController)
+	router.POST("/user/verify/", user_controller.UserVerifyController)
 
 	return router
 }
