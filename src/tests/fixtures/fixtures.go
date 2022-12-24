@@ -31,7 +31,7 @@ func (s *SuiteFixtures) MockDatabase() *gorm.DB {
 	return cursor
 }
 
-func (s *SuiteFixtures) CreateNewUserFixture(verified bool) models.UserModel {
+func (s *SuiteFixtures) CreateNewUserFixture(verified bool) (models.UserModel, string) {
 	serializerData := transformers.UserCreateTransformer{
 		Name:             "vasya",
 		Email:            "vasya@vasya.com",
@@ -48,7 +48,10 @@ func (s *SuiteFixtures) CreateNewUserFixture(verified bool) models.UserModel {
 		verified,
 	)
 
-	return user
+	tokenKey, _ := auth_handlers.GenerateJWTByUserHandler(user.ID)
+	fmt.Println("t", tokenKey)
+
+	return user, tokenKey
 }
 
 func (s *SuiteFixtures) PatchRequestWithJWT(request http.Request, userId uint) {

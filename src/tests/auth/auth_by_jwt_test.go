@@ -34,7 +34,7 @@ func (suite *AuthByJWTTestSuite) TestAuth200() {
 	recorder := httptest.NewRecorder()
 	request, _ := http.NewRequest("GET", "/user/profile/", nil)
 
-	user := suite.CreateNewUserFixture(true)
+	user, _ := suite.CreateNewUserFixture(true)
 	suite.PatchRequestWithJWT(*request, user.ID)
 
 	router.ServeHTTP(recorder, request)
