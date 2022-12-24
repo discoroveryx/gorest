@@ -33,7 +33,7 @@ func (suite *UserLoginTestSuite) TearDownTest() {
 }
 
 func (suite *UserLoginTestSuite) TestUserLogin201() {
-	suite.CreateNewUserFixture()
+	suite.CreateNewUserFixture(true)
 
 	router := transport.SetupRouter()
 
@@ -63,7 +63,7 @@ func (suite *UserLoginTestSuite) TestUserLogin201() {
 	suite.Equal(&responseData, &expectedData)
 }
 func (suite *UserLoginTestSuite) TestUserLoginNameWrong400() {
-	suite.CreateNewUserFixture()
+	suite.CreateNewUserFixture(true)
 
 	router := transport.SetupRouter()
 
@@ -95,7 +95,7 @@ func (suite *UserLoginTestSuite) TestUserLoginNameWrong400() {
 }
 
 func (suite *UserLoginTestSuite) TestUserLoginNamePassword400() {
-	suite.CreateNewUserFixture()
+	suite.CreateNewUserFixture(true)
 
 	router := transport.SetupRouter()
 
@@ -128,35 +128,35 @@ func (suite *UserLoginTestSuite) TestUserLoginNamePassword400() {
 
 func (suite *UserLoginTestSuite) TestUserLoginNotVerified400() {
 	// TODO it
-	// suite.CreateNewUserFixture()
+	suite.CreateNewUserFixture(false)
 
-	// router := transport.SetupRouter()
+	router := transport.SetupRouter()
 
-	// userLoginData := &transformers.UserLoginTransformer{
-	// 	Name:     "vasya",
-	// 	Password: "12345678",
-	// }
+	userLoginData := &transformers.UserLoginTransformer{
+		Name:     "vasya",
+		Password: "12345678",
+	}
 
-	// jsonBody, _ := json.Marshal(userLoginData)
-	// bodyReader := bytes.NewReader(jsonBody)
+	jsonBody, _ := json.Marshal(userLoginData)
+	bodyReader := bytes.NewReader(jsonBody)
 
-	// recorder := httptest.NewRecorder()
-	// request, _ := http.NewRequest("POST", "/user/login/", bodyReader)
+	recorder := httptest.NewRecorder()
+	request, _ := http.NewRequest("POST", "/user/login/", bodyReader)
 
-	// router.ServeHTTP(recorder, request)
+	router.ServeHTTP(recorder, request)
 
-	// response := recorder.Result()
+	response := recorder.Result()
 
-	// suite.Equal(400, response.StatusCode)
-	// fmt.Println(recorder.Body.String())
+	suite.Equal(400, response.StatusCode)
+	fmt.Println(recorder.Body.String())
 
-	// responseError := struct{ Error string }{}
+	responseError := struct{ Error string }{}
 
-	// json.Unmarshal(recorder.Body.Bytes(), &responseError)
+	json.Unmarshal(recorder.Body.Bytes(), &responseError)
 
-	// expectedError := struct{ Error string }{Error: "user_login_failed"}
+	expectedError := struct{ Error string }{Error: "user_is_not_verified"}
 
-	// suite.Equal(&responseError, &expectedError)
+	suite.Equal(&responseError, &expectedError)
 }
 
 func TestRunnerUserLogin(t *testing.T) {

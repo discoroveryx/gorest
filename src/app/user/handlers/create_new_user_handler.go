@@ -5,13 +5,12 @@ import (
 	"app/user/repositories"
 )
 
-
 type CreateNewUserHandler struct {
 	Repository repositories.UserCreateRepository
 }
 
-func (s CreateNewUserHandler) Run(name string, email string, password string) models.UserModel {
+func (s CreateNewUserHandler) Run(name string, email string, password string, verified bool) models.UserModel {
 	userRepo := s.Repository
 
-	return userRepo.UserCreate(name, email, password)
+	return userRepo.UserCreate(name, email, password, verified)
 }

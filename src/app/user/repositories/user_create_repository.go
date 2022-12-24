@@ -17,12 +17,12 @@ func NewUserCreateRepository() UserCreateRepository {
 	return UserCreateRepository{db: cursor}
 }
 
-func (u *UserCreateRepository) UserCreate(name string, email string, password string) models.UserModel {
+func (u *UserCreateRepository) UserCreate(name string, email string, password string, verified bool) models.UserModel {
 	user := models.UserModel{
 		Name:     name,
 		Email:    email,
 		Password: password,
-		Verified: false,
+		Verified: verified,
 		// Ctime:    time.Now(),
 	}
 

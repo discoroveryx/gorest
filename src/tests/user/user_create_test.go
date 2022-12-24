@@ -33,7 +33,7 @@ func (suite *CreateUserTestSuite) TearDownTest() {
 }
 
 func (suite *CreateUserTestSuite) TestUserCreate400() {
-	suite.CreateNewUserFixture()
+	suite.CreateNewUserFixture(true)
 
 	router := transport.SetupRouter()
 

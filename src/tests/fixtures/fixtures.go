@@ -2,8 +2,9 @@ package fixtures
 
 import (
 	auth_handlers "app/auth/handlers"
-	"app/user/actions"
+	"app/user/handlers"
 	"app/user/models"
+	"app/user/repositories"
 	"app/user/transformers"
 	"config"
 	"dbstorage"
@@ -30,7 +31,7 @@ func (s *SuiteFixtures) MockDatabase() *gorm.DB {
 	return cursor
 }
 
-func (s *SuiteFixtures) CreateNewUserFixture() (models.UserModel, error) {
+func (s *SuiteFixtures) CreateNewUserFixture(verified bool) models.UserModel {
 	serializerData := transformers.UserCreateTransformer{
 		Name:             "vasya",
 		Email:            "vasya@vasya.com",
@@ -38,9 +39,16 @@ func (s *SuiteFixtures) CreateNewUserFixture() (models.UserModel, error) {
 		PasswordRepeated: "12345678",
 	}
 
-	user, err := actions.UserCreateAction{}.Run(serializerData)
+	serializerData.Password, _ = handlers.PasswordHashingHandler(serializerData.Password)
 
-	return user, err
+	user := handlers.CreateNewUserHandler{Repository: repositories.NewUserCreateRepository()}.Run(
+		serializerData.Name,
+		serializerData.Email,
+		serializerData.Password,
+		verified,
+	)
+
+	return user
 }
 
 func (s *SuiteFixtures) PatchRequestWithJWT(request http.Request, userId uint) {

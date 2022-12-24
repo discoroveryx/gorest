@@ -1,11 +1,9 @@
 package controllers
 
 import (
-	"errors"
 	"net/http"
 
 	"app/auth/actions"
-	"app/auth/exceptions"
 	"app/auth/transformers"
 
 	"github.com/gin-gonic/gin"
@@ -21,10 +19,7 @@ func UserLoginController(c *gin.Context) {
 
 	token, err := actions.UserLoginAction{}.Run(serializerData)
 	if err != nil {
-		switch {
-		case errors.Is(err, exceptions.UserLoginFailedError):
-			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		}
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 

@@ -33,8 +33,17 @@ func (a UserLoginAction) Run(serializerData transformers.UserLoginTransformer) (
 	user, err := user_handlers.UserExistsByNameHandler(serializerData.Name)
 	// fmt.Println("\n", user_exists, err, "\n")
 	if err != nil {
-		fmt.Println("1")
 		return "", exceptions.UserLoginFailedError
+	}
+
+	// Check is user verified
+	userIsVerified, err := user_handlers.IsUserVerifiedByIdHandler(user.ID)
+	fmt.Println("\n", userIsVerified, err, "\n")
+	if err != nil {
+		return "", exceptions.UserLoginFailedError
+	}
+	if userIsVerified == false {
+		return "", exceptions.UserIsNotVerifiedError
 	}
 
 	// serializerData.Password, err = user_handlers.PasswordHashingHandler(serializerData.Password)

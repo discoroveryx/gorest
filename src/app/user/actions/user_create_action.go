@@ -47,6 +47,7 @@ func (a UserCreateAction) Run(serializerData transformers.UserCreateTransformer)
 		serializerData.Name,
 		serializerData.Email,
 		serializerData.Password,
+		false,
 	)
 
 	verificationCode := handlers.GenerateVerificationCodeHandler()

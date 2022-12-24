@@ -36,7 +36,7 @@ func (suite *GetUserProfileTestSuite) TestGetUserProfile200() {
 	recorder := httptest.NewRecorder()
 	request, _ := http.NewRequest("GET", "/user/profile/", nil)
 
-	user, _ := suite.CreateNewUserFixture()
+	user := suite.CreateNewUserFixture(true)
 	suite.PatchRequestWithJWT(*request, user.ID)
 
 	router.ServeHTTP(recorder, request)

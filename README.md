@@ -3,12 +3,15 @@
 # AIR 
 https://github.com/cosmtrek/air
 ## Windows
-go install github.com/cosmtrek/air@latest
+`go install github.com/cosmtrek/air@latest`
 ## Linux
-go install github.com/cosmtrek/air
+`go install github.com/cosmtrek/air`
 
 # JWT
-export JWTSecretKey=123456
+`export JWTSecretKey=123456`
 
 # To run tests
-..\src> go test -v tests/...
+`..\src> go test -v tests/...`
+
+`go clean --testcache`
+`go test -p 1 tests/...`
