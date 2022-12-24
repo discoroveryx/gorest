@@ -32,5 +32,5 @@ func UserVerifyController(c *gin.Context) {
 		UserId:   user.ID,
 		Verified: true,
 	}
-	c.JSON(http.StatusCreated, resp)
+	c.JSON(http.StatusOK, resp)
 }

@@ -55,7 +55,7 @@ func (suite *UserVerifyTestSuite) TestUserVerify200() {
 	response := recorder.Result()
 	fmt.Println("11", response)
 
-	suite.Equal(201, response.StatusCode)
+	suite.Equal(200, response.StatusCode)
 
 	var responseData transformers.UserVerifyRespTransformer
 
