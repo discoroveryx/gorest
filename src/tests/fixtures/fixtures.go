@@ -17,8 +17,7 @@ import (
 
 const DatabaseTestName = "test_1"
 
-type SuiteFixtures struct {
-}
+type SuiteFixtures struct {}
 
 func (s *SuiteFixtures) MockDatabase() *gorm.DB {
 	conf := config.GetProjectConf()

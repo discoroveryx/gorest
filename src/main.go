@@ -13,6 +13,6 @@ func main() {
 	db.Migrate()
 
 	// Init http
-	router := transport.SetupRouter()
+	router := transport.SetupRouter(true)
 	router.Run(":8080")
 }

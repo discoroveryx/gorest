@@ -8,11 +8,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func SetupRouter() *gin.Engine {
+func SetupRouter(debug bool) *gin.Engine {
 	// fmt.Println("I am the SetupRouter")
 
 	// router := gin.New()
 	// router.Use(CORSMiddlware())
+
+	if debug == false {
+		gin.SetMode(gin.ReleaseMode)
+	}
 
 	router := gin.Default()
 	router.Use(cors.Default())

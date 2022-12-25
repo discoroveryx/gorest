@@ -11,6 +11,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 
+	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/suite"
 	"gorm.io/gorm"
 
@@ -20,12 +21,14 @@ import (
 
 type UserVerifyTestSuite struct {
 	suite.Suite
-	db *gorm.DB
+	db     *gorm.DB
+	router *gin.Engine
 	fixtures.SuiteFixtures
 }
 
 func (suite *UserVerifyTestSuite) SetupTest() {
 	suite.db = suite.MockDatabase()
+	suite.router = transport.SetupRouter(false)
 }
 
 func (suite *UserVerifyTestSuite) TearDownTest() {
@@ -36,8 +39,6 @@ func (suite *UserVerifyTestSuite) TestUserVerify200() {
 	user, token := suite.CreateNewUserFixture(true)
 
 	fmt.Println("token on tests", user.VerificationCode)
-
-	router := transport.SetupRouter()
 
 	userVerifyData := &transformers.UserVerifyTransformer{
 		UserId:           user.ID,
@@ -50,7 +51,7 @@ func (suite *UserVerifyTestSuite) TestUserVerify200() {
 	recorder := httptest.NewRecorder()
 	request, _ := http.NewRequest("POST", "/user/verify/", bodyReader)
 
-	router.ServeHTTP(recorder, request)
+	suite.router.ServeHTTP(recorder, request)
 
 	response := recorder.Result()
 	fmt.Println("11", response)

@@ -12,6 +12,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 
+	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/suite"
 	"gorm.io/gorm"
 
@@ -20,12 +21,14 @@ import (
 
 type CreateUserTestSuite struct {
 	suite.Suite
-	db *gorm.DB
+	db     *gorm.DB
+	router *gin.Engine
 	fixtures.SuiteFixtures
 }
 
 func (suite *CreateUserTestSuite) SetupTest() {
 	suite.db = suite.MockDatabase()
+	suite.router = transport.SetupRouter(false)
 }
 
 func (suite *CreateUserTestSuite) TearDownTest() {
@@ -34,8 +37,6 @@ func (suite *CreateUserTestSuite) TearDownTest() {
 
 func (suite *CreateUserTestSuite) TestUserCreate400() {
 	suite.CreateNewUserFixture(true)
-
-	router := transport.SetupRouter()
 
 	jsonBody := []byte(`{
 		"name": "vasya",
@@ -47,15 +48,13 @@ func (suite *CreateUserTestSuite) TestUserCreate400() {
 
 	w := httptest.NewRecorder()
 	req, _ := http.NewRequest("POST", "/user/create/", bodyReader)
-	router.ServeHTTP(w, req)
+	suite.router.ServeHTTP(w, req)
 
 	suite.Equal(400, w.Code)
 	// fmt.Println(w.Body.String())
 }
 
 func (suite *CreateUserTestSuite) TestUserCreate201() {
-	router := transport.SetupRouter()
-
 	newUser := &transformers.UserCreateTransformer{
 		Name:             "vasya",
 		Email:            "vasya@vasya.com",
@@ -69,7 +68,7 @@ func (suite *CreateUserTestSuite) TestUserCreate201() {
 
 	recorder := httptest.NewRecorder()
 	request, _ := http.NewRequest("POST", "/user/create/", bodyReader)
-	router.ServeHTTP(recorder, request)
+	suite.router.ServeHTTP(recorder, request)
 
 	response := recorder.Result()
 

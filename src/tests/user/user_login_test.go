@@ -11,6 +11,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 
+	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/suite"
 	"gorm.io/gorm"
 
@@ -20,12 +21,14 @@ import (
 
 type UserLoginTestSuite struct {
 	suite.Suite
-	db *gorm.DB
+	db     *gorm.DB
+	router *gin.Engine
 	fixtures.SuiteFixtures
 }
 
 func (suite *UserLoginTestSuite) SetupTest() {
 	suite.db = suite.MockDatabase()
+	suite.router = transport.SetupRouter(false)
 }
 
 func (suite *UserLoginTestSuite) TearDownTest() {
@@ -34,8 +37,6 @@ func (suite *UserLoginTestSuite) TearDownTest() {
 
 func (suite *UserLoginTestSuite) TestUserLogin201() {
 	suite.CreateNewUserFixture(true)
-
-	router := transport.SetupRouter()
 
 	userLoginData := &transformers.UserLoginTransformer{
 		Name:     "vasya",
@@ -48,7 +49,7 @@ func (suite *UserLoginTestSuite) TestUserLogin201() {
 	recorder := httptest.NewRecorder()
 	request, _ := http.NewRequest("POST", "/user/login/", bodyReader)
 
-	router.ServeHTTP(recorder, request)
+	suite.router.ServeHTTP(recorder, request)
 
 	response := recorder.Result()
 
@@ -65,8 +66,6 @@ func (suite *UserLoginTestSuite) TestUserLogin201() {
 func (suite *UserLoginTestSuite) TestUserLoginNameWrong400() {
 	suite.CreateNewUserFixture(true)
 
-	router := transport.SetupRouter()
-
 	userLoginData := &transformers.UserLoginTransformer{
 		Name:     "wrong",
 		Password: "12345678",
@@ -78,7 +77,7 @@ func (suite *UserLoginTestSuite) TestUserLoginNameWrong400() {
 	recorder := httptest.NewRecorder()
 	request, _ := http.NewRequest("POST", "/user/login/", bodyReader)
 
-	router.ServeHTTP(recorder, request)
+	suite.router.ServeHTTP(recorder, request)
 
 	response := recorder.Result()
 
@@ -97,8 +96,6 @@ func (suite *UserLoginTestSuite) TestUserLoginNameWrong400() {
 func (suite *UserLoginTestSuite) TestUserLoginNamePassword400() {
 	suite.CreateNewUserFixture(true)
 
-	router := transport.SetupRouter()
-
 	userLoginData := &transformers.UserLoginTransformer{
 		Name:     "vasya",
 		Password: "wrong_password",
@@ -110,7 +107,7 @@ func (suite *UserLoginTestSuite) TestUserLoginNamePassword400() {
 	recorder := httptest.NewRecorder()
 	request, _ := http.NewRequest("POST", "/user/login/", bodyReader)
 
-	router.ServeHTTP(recorder, request)
+	suite.router.ServeHTTP(recorder, request)
 
 	response := recorder.Result()
 
@@ -129,8 +126,6 @@ func (suite *UserLoginTestSuite) TestUserLoginNamePassword400() {
 func (suite *UserLoginTestSuite) TestUserLoginNotVerified400() {
 	suite.CreateNewUserFixture(false)
 
-	router := transport.SetupRouter()
-
 	userLoginData := &transformers.UserLoginTransformer{
 		Name:     "vasya",
 		Password: "12345678",
@@ -142,7 +137,7 @@ func (suite *UserLoginTestSuite) TestUserLoginNotVerified400() {
 	recorder := httptest.NewRecorder()
 	request, _ := http.NewRequest("POST", "/user/login/", bodyReader)
 
-	router.ServeHTTP(recorder, request)
+	suite.router.ServeHTTP(recorder, request)
 
 	response := recorder.Result()
 

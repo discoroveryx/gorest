@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 
+	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/suite"
 	"gorm.io/gorm"
 
@@ -18,12 +19,14 @@ import (
 
 type GetUserProfileTestSuite struct {
 	suite.Suite
-	db *gorm.DB
+	db     *gorm.DB
+	router *gin.Engine
 	fixtures.SuiteFixtures
 }
 
 func (suite *GetUserProfileTestSuite) SetupTest() {
 	suite.db = suite.MockDatabase()
+	suite.router = transport.SetupRouter(false)
 }
 
 func (suite *GetUserProfileTestSuite) TearDownTest() {
@@ -31,15 +34,13 @@ func (suite *GetUserProfileTestSuite) TearDownTest() {
 }
 
 func (suite *GetUserProfileTestSuite) TestGetUserProfile200() {
-	router := transport.SetupRouter()
-
 	recorder := httptest.NewRecorder()
 	request, _ := http.NewRequest("GET", "/user/profile/", nil)
 
 	user, _ := suite.CreateNewUserFixture(true)
 	suite.PatchRequestWithJWT(*request, user.ID)
 
-	router.ServeHTTP(recorder, request)
+	suite.router.ServeHTTP(recorder, request)
 
 	response := recorder.Result()
 
@@ -60,12 +61,10 @@ func (suite *GetUserProfileTestSuite) TestGetUserProfile200() {
 }
 
 func (suite *GetUserProfileTestSuite) TestGetUserProfile401() {
-	router := transport.SetupRouter()
-
 	recorder := httptest.NewRecorder()
 	request, _ := http.NewRequest("GET", "/user/profile/", nil)
 
-	router.ServeHTTP(recorder, request)
+	suite.router.ServeHTTP(recorder, request)
 
 	response := recorder.Result()
 
