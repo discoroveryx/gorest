@@ -5,7 +5,6 @@ import (
 	"app/user/models"
 	"bytes"
 	"encoding/json"
-	"fmt"
 	"testing"
 
 	"net/http"
@@ -82,7 +81,7 @@ func (suite *UserLoginTestSuite) TestUserLoginNameWrong400() {
 	response := recorder.Result()
 
 	suite.Equal(400, response.StatusCode)
-	fmt.Println(recorder.Body.String())
+	// fmt.Println(recorder.Body.String())
 
 	responseError := struct{ Error string }{}
 
@@ -112,7 +111,7 @@ func (suite *UserLoginTestSuite) TestUserLoginNamePassword400() {
 	response := recorder.Result()
 
 	suite.Equal(400, response.StatusCode)
-	fmt.Println(recorder.Body.String())
+	// fmt.Println(recorder.Body.String())
 
 	responseError := struct{ Error string }{}
 
@@ -142,7 +141,7 @@ func (suite *UserLoginTestSuite) TestUserLoginNotVerified400() {
 	response := recorder.Result()
 
 	suite.Equal(400, response.StatusCode)
-	fmt.Println(recorder.Body.String())
+	// fmt.Println(recorder.Body.String())
 
 	responseError := struct{ Error string }{}
 

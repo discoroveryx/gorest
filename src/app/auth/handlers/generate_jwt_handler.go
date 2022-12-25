@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"fmt"
 	"time"
 
 	"app/auth/configs"
@@ -19,7 +18,7 @@ func GenerateJWTByUserHandler(userId uint) (string, error) {
 	}
 
 	JWTSecretKey := configs.GetJWTSecretKey()
-	fmt.Println("JWTSecretKey", JWTSecretKey)
+	// fmt.Println("JWTSecretKey", JWTSecretKey)
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	// token := jwt.New(jwt.SigningMethodHS256)
@@ -32,7 +31,7 @@ func GenerateJWTByUserHandler(userId uint) (string, error) {
 	tokenString, err := token.SignedString([]byte(JWTSecretKey))
 
 	if err != nil {
-		fmt.Println(err)
+		// fmt.Println(err)
 		return "", err
 	}
 

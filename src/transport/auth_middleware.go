@@ -1,7 +1,6 @@
 package transport
 
 import (
-	"fmt"
 	"strings"
 
 	auth_handlers "app/auth/handlers"
@@ -30,7 +29,7 @@ func AuthMiddleware() gin.HandlerFunc {
 
 		bearer := valueSplited[1]
 
-		fmt.Println("bearer", bearer)
+		// fmt.Println("bearer", bearer)
 
 		claims, err := auth_handlers.ParseJWTHandler(bearer)
 

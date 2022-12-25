@@ -5,7 +5,6 @@ import (
 	"app/user/transformers"
 	"bytes"
 	"encoding/json"
-	"fmt"
 	"testing"
 
 	"net/http"
@@ -38,7 +37,7 @@ func (suite *UserVerifyTestSuite) TearDownTest() {
 func (suite *UserVerifyTestSuite) TestUserVerify200() {
 	user, token := suite.CreateNewUserFixture(true)
 
-	fmt.Println("token on tests", user.VerificationCode)
+	// fmt.Println("token on tests", user.VerificationCode)
 
 	userVerifyData := &transformers.UserVerifyTransformer{
 		UserId:           user.ID,
@@ -54,7 +53,7 @@ func (suite *UserVerifyTestSuite) TestUserVerify200() {
 	suite.router.ServeHTTP(recorder, request)
 
 	response := recorder.Result()
-	fmt.Println("11", response)
+	// fmt.Println("11", response)
 
 	suite.Equal(200, response.StatusCode)
 
@@ -62,8 +61,8 @@ func (suite *UserVerifyTestSuite) TestUserVerify200() {
 
 	json.Unmarshal(recorder.Body.Bytes(), &responseData)
 
-	fmt.Println(user.ID, user.Verified)
-	fmt.Println(responseData)
+	// fmt.Println(user.ID, user.Verified)
+	// fmt.Println(responseData)
 
 	expectedData := transformers.UserVerifyRespTransformer{UserId: user.ID, Verified: user.Verified}
 

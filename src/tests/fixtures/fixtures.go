@@ -17,7 +17,7 @@ import (
 
 const DatabaseTestName = "test_1"
 
-type SuiteFixtures struct {}
+type SuiteFixtures struct{}
 
 func (s *SuiteFixtures) MockDatabase() *gorm.DB {
 	conf := config.GetProjectConf()
@@ -48,7 +48,7 @@ func (s *SuiteFixtures) CreateNewUserFixture(verified bool) (models.UserModel, s
 	)
 
 	tokenKey, _ := auth_handlers.GenerateJWTByUserHandler(user.ID)
-	fmt.Println("t", tokenKey)
+	// fmt.Println("t", tokenKey)
 
 	return user, tokenKey
 }

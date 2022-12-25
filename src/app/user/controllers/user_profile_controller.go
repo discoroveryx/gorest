@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"net/http"
 
 	"app/user/actions"
@@ -32,7 +31,7 @@ func UserProfileController(c *gin.Context) {
 		CreatedAt: user.CreatedAt,
 	}
 
-	fmt.Println("\n\nuser", user)
+	// fmt.Println("\n\nuser", user)
 
 	c.JSON(200, serializerData)
 }

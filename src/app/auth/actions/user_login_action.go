@@ -4,7 +4,6 @@ import (
 	"app/auth/exceptions"
 	auth_handlers "app/auth/handlers"
 	user_handlers "app/user/handlers"
-	"fmt"
 
 	// "app/auth/repositories"
 	"app/auth/transformers"
@@ -38,7 +37,7 @@ func (a UserLoginAction) Run(serializerData transformers.UserLoginTransformer) (
 
 	// Check is user verified
 	userIsVerified, err := user_handlers.IsUserVerifiedByIdHandler(user.ID)
-	fmt.Println("\n", userIsVerified, err, "\n")
+	// fmt.Println("\n", userIsVerified, err, "\n")
 	if err != nil {
 		return "", exceptions.UserLoginFailedError
 	}
@@ -58,15 +57,14 @@ func (a UserLoginAction) Run(serializerData transformers.UserLoginTransformer) (
 	// }
 
 	if !auth_handlers.ValidatePasswordByUserHandler(user, serializerData.Password) {
-		fmt.Println("3")
 		return "", exceptions.UserLoginFailedError
 	}
 
 	token, _ := auth_handlers.GenerateJWTByUserHandler(user.ID)
 
-	fmt.Printf("Type %T", user.ID)
+	// fmt.Printf("Type %T", user.ID)
 
-	fmt.Println("JWT = ", token)
+	// fmt.Println("JWT = ", token)
 
 	return token, nil
 }

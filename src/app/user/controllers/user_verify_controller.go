@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"net/http"
 
 	"app/user/actions"
@@ -13,14 +12,14 @@ import (
 func UserVerifyController(c *gin.Context) {
 	var serializerData transformers.UserVerifyTransformer
 
-	fmt.Println("UserVerifyController")
+	// fmt.Println("UserVerifyController")
 	if err := c.ShouldBindJSON(&serializerData); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		fmt.Println(err.Error())
+		// fmt.Println(err.Error())
 		return
 	}
 
-	fmt.Println("ser data", serializerData)
+	// fmt.Println("ser data", serializerData)
 
 	user, err := actions.UserVerifyAction{}.Run(serializerData)
 	if err != nil {

@@ -3,7 +3,6 @@ package handlers
 import (
 	"app/auth/configs"
 	"app/auth/exceptions"
-	"fmt"
 
 	"github.com/golang-jwt/jwt/v4"
 )
@@ -11,7 +10,7 @@ import (
 func ParseJWTHandler(bearerValue string) (*configs.JWTClaims, error) {
 
 	JWTSecretKey := configs.GetJWTSecretKey()
-	fmt.Println("JWTSecretKey", JWTSecretKey)
+	// fmt.Println("JWTSecretKey", JWTSecretKey)
 
 	// token, _ := jwt.ParseWithClaims(bearerValue, &configs.JWTClaims{}, func(token *jwt.Token) (interface{}, error) {
 	// 	// Don't forget to validate the alg is what you expect:
@@ -24,17 +23,17 @@ func ParseJWTHandler(bearerValue string) (*configs.JWTClaims, error) {
 	// 	return hmacSampleSecret, nil
 	// })
 
-	token, err := jwt.ParseWithClaims(bearerValue, &configs.JWTClaims{}, func(token *jwt.Token) (interface{}, error) {
+	token, _ := jwt.ParseWithClaims(bearerValue, &configs.JWTClaims{}, func(token *jwt.Token) (interface{}, error) {
 		return []byte(JWTSecretKey), nil
 	})
 
-	fmt.Println("err", err)
+	// fmt.Println("err", err)
 
 	// if err =! nil {
 	// 	return nil, exceptions.JWTFailedError
 	// }
 
-	fmt.Println("TOken, ", token)
+	// fmt.Println("TOken, ", token)
 
 	if token == nil {
 		return nil, exceptions.JWTFailedError
@@ -46,14 +45,14 @@ func ParseJWTHandler(bearerValue string) (*configs.JWTClaims, error) {
 	// 	fmt.Println(err)
 	// }
 
-	fmt.Println("token.Valid", token.Valid)
+	// fmt.Println("token.Valid", token.Valid)
 
 	if token.Valid == false {
 		return nil, exceptions.JWTFailedError
 	}
 
 	claims, ok := token.Claims.(*configs.JWTClaims)
-	fmt.Println(123, claims.UserId, ok)
+	// fmt.Println(123, claims.UserId, ok)
 
 	if ok {
 		return claims, nil
