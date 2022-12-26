@@ -140,8 +140,8 @@ func (suite *UserLoginTestSuite) TestUserLoginNotVerified400() {
 
 	response := recorder.Result()
 
-	suite.Equal(400, response.StatusCode)
 	// fmt.Println(recorder.Body.String())
+	suite.Equal(400, response.StatusCode)
 
 	responseError := struct{ Error string }{}
 

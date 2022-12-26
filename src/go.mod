@@ -34,6 +34,8 @@ replace dbstorage => ./dbstorage
 
 replace config => ./config
 
+replace helpers => ./helpers
+
 replace transport => ./transport
 
 replace tests => ./tests
@@ -96,5 +98,6 @@ require (
 	gorm.io/driver/postgres v1.4.5 // indirect
 	gorm.io/driver/sqlite v1.4.3 // indirect
 	gorm.io/gorm v1.24.2 // indirect
+	helpers v0.0.0-00010101000000-000000000000 // indirect
 	tests/fixtures v0.0.0-00010101000000-000000000000 // indirect
 )

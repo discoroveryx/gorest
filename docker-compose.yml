@@ -1,30 +1,28 @@
 version: "3.9"
 volumes:
-  pg_data:
+  gorest_pg_data:
 services:
-  gorest:
+  gorest-api:
     environment:
       - JWTSecretKey=12345678
-      # - GOPATH=/home/root/project
     build: .
     ports:
       - "8080:8080"
     volumes:
       - ./:/home/root/project
     depends_on:
-      - pg
+      - gorest-pg
     stdin_open: true
     tty: true
     command: "air -c src/.air_linux.toml"
-  pg:
+  gorest-pg:
     image: "postgres:11"
     restart: always
     environment:
       POSTGRES_DB: main_1
       POSTGRES_USER: main_1
-      # POSTGRES_PASSWORD: main_1
       POSTGRES_HOST_AUTH_METHOD: trust
     ports:
       - "5432:5432"
     volumes:
-      - pg_data:/var/lib/postgresql/data
+      - gorest_pg_data:/var/lib/postgresql/data

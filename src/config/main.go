@@ -7,6 +7,7 @@ type ProjectConf struct {
 
 var conf *ProjectConf
 
+// Singleton
 func init() {
 	conf = &ProjectConf{
 		DBName:   "main_1",

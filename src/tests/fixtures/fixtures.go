@@ -1,7 +1,7 @@
 package fixtures
 
 import (
-	auth_handlers "app/auth/handlers"
+	authhandlers "app/auth/handlers"
 	"app/user/handlers"
 	"app/user/models"
 	"app/user/repositories"
@@ -9,19 +9,26 @@ import (
 	"config"
 	"dbstorage"
 	"fmt"
+	"helpers"
 
 	"net/http"
 
 	"gorm.io/gorm"
 )
 
-const DatabaseTestName = "test_1"
+const DatabaseTestNameDefault = "test_main"
+const DatabaseTestNamePrefix = "test_app_"
 
 type SuiteFixtures struct{}
 
 func (s *SuiteFixtures) MockDatabase() *gorm.DB {
 	conf := config.GetProjectConf()
-	conf.DBName = DatabaseTestName
+
+	conf.DBName = DatabaseTestNameDefault
+
+	if catalogName, err := helpers.GetLastCatalogName(); err == nil {
+		conf.DBName = fmt.Sprint(DatabaseTestNamePrefix, catalogName)
+	}
 
 	db := new(dbstorage.DB)
 	cursor := db.Connect()
@@ -47,13 +54,12 @@ func (s *SuiteFixtures) CreateNewUserFixture(verified bool) (models.UserModel, s
 		verified,
 	)
 
-	tokenKey, _ := auth_handlers.GenerateJWTByUserHandler(user.ID)
-	// fmt.Println("t", tokenKey)
+	tokenKey, _ := authhandlers.GenerateJWTByUserHandler(user.ID)
 
 	return user, tokenKey
 }
 
 func (s *SuiteFixtures) PatchRequestWithJWT(request http.Request, userId uint) {
-	token, _ := auth_handlers.GenerateJWTByUserHandler(userId)
+	token, _ := authhandlers.GenerateJWTByUserHandler(userId)
 	request.Header.Add("Authorization", fmt.Sprintf("Bearer %s", token))
 }
