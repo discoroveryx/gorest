@@ -20,7 +20,7 @@ services:
     restart: always
     environment:
       POSTGRES_DB: main_1
-      POSTGRES_USER: main_1
+      POSTGRES_USER: postgres
       POSTGRES_HOST_AUTH_METHOD: trust
     ports:
       - "5432:5432"

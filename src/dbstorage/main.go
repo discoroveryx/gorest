@@ -14,6 +14,8 @@ type DB struct {
 
 func (d *DB) Connect() *gorm.DB {
 	conf := config.GetProjectConf()
+	dbhost := conf.DBHost
+	dbuser := conf.DBUser
 	dbname := conf.DBName
 	dbengine := conf.DBEngine
 
@@ -24,7 +26,7 @@ func (d *DB) Connect() *gorm.DB {
 	}
 
 	if dbengine == "postgres" {
-		conn = OpenPostgres(dbname)
+		conn = OpenPostgres(dbhost, dbuser, dbname)
 	}
 
 	d.db = conn

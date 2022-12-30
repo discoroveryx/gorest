@@ -7,12 +7,15 @@ import (
 	"gorm.io/gorm"
 )
 
-func OpenPostgres(dbname string) *gorm.DB {
+func OpenPostgres(dbhost string, dbuser string, dbname string) *gorm.DB {
 	// fmt.Println("OpenPostgres", dbname)
 	// TODO check test env
-	CreateDatabaseIfNotExists(dbname)
+	CreateDatabaseIfNotExists(dbhost, dbuser, dbname)
 
-	dsn := fmt.Sprintf("host=pg user=main_1 dbname=%s port=5432 sslmode=disable TimeZone=Asia/Novosibirsk", dbname)
+	dsn := fmt.Sprintf(
+		"host=%s user=%s dbname=%s port=5432 sslmode=disable TimeZone=Asia/Novosibirsk",
+		dbhost, dbuser, dbname,
+	)
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
 	if err != nil {
@@ -22,9 +25,12 @@ func OpenPostgres(dbname string) *gorm.DB {
 	return db
 }
 
-func CreateDatabaseIfNotExists(dbname string) {
+func CreateDatabaseIfNotExists(dbhost string, dbuser string, dbname string) {
 	// fmt.Println("CreateDatabaseIfNotExists", dbname)
-	dsn := "host=pg user=main_1 port=5432 sslmode=disable TimeZone=Asia/Novosibirsk"
+	dsn := fmt.Sprintf(
+		"host=%s user=%s port=5432 sslmode=disable TimeZone=Asia/Novosibirsk",
+		dbhost, dbuser,
+	)
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
 	if err != nil {
