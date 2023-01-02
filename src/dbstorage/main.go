@@ -14,19 +14,21 @@ type DB struct {
 
 func (d *DB) Connect() *gorm.DB {
 	conf := config.GetProjectConf()
-	dbhost := conf.DBHost
-	dbuser := conf.DBUser
-	dbname := conf.DBName
-	dbengine := conf.DBEngine
 
 	var conn *gorm.DB
 
-	if dbengine == "sqlite" {
-		conn = OpenSqlite(dbname + ".db")
+	if conf.DataBase.Engine == "sqlite" {
+		conn = OpenSqlite(conf.DataBase.Name + ".db")
 	}
 
-	if dbengine == "postgres" {
-		conn = OpenPostgres(dbhost, dbuser, dbname)
+	if conf.DataBase.Engine == "postgres" {
+		conn = OpenPostgres(
+			conf.DataBase.Host,
+			conf.DataBase.Port,
+			conf.DataBase.User,
+			conf.DataBase.Name,
+			conf.DataBase.TimeZone,
+		)
 	}
 
 	d.db = conn

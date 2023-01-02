@@ -4,7 +4,13 @@ volumes:
 services:
   gorest-api:
     environment:
-      - JWTSecretKey=12345678
+      - AUTH_SECRET_KEY=12345678
+      - DB_ENGINE=postgres
+      - DB_HOST=gorest-pg
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_NAME=main_1
+      - DB_TZ=Asia/Novosibirsk
     build: .
     ports:
       - "8080:8080"

@@ -1,7 +1,8 @@
 package configs
 
-import "os"
+import "config"
 
 func GetJWTSecretKey() string {
-	return os.Getenv("JWTSecretKey")
+	conf := config.GetProjectConf()
+	return conf.AuthSecretkey
 }

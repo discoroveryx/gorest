@@ -1,10 +1,19 @@
 package config
 
+import "os"
+
+type DataBaseConf struct {
+	Engine   string
+	Host     string
+	Port     string
+	User     string
+	Name     string
+	TimeZone string
+}
+
 type ProjectConf struct {
-	DBHost   string
-	DBUser   string
-	DBName   string
-	DBEngine string
+	AuthSecretkey string
+	DataBase *DataBaseConf
 }
 
 var conf *ProjectConf
@@ -12,10 +21,15 @@ var conf *ProjectConf
 // Singleton
 func init() {
 	conf = &ProjectConf{
-		DBHost:   "gorest-pg",
-		DBUser:   "postgres",
-		DBName:   "main_1",
-		DBEngine: "postgres",
+		AuthSecretkey: os.Getenv("AUTH_SECRET_KEY"),
+		DataBase: &DataBaseConf{
+			Engine:   os.Getenv("DB_ENGINE"),
+			Host:     os.Getenv("DB_HOST"),
+			Port:     os.Getenv("DB_PORT"),
+			User:     os.Getenv("DB_USER"),
+			Name:     os.Getenv("DB_NAME"),
+			TimeZone: os.Getenv("DB_TZ"),
+		},
 	}
 }
 

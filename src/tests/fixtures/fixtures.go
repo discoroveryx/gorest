@@ -24,10 +24,10 @@ type SuiteFixtures struct{}
 func (s *SuiteFixtures) MockDatabase() *gorm.DB {
 	conf := config.GetProjectConf()
 
-	conf.DBName = DatabaseTestNameDefault
+	conf.DataBase.Name = DatabaseTestNameDefault
 
 	if catalogName, err := helpers.GetLastCatalogName(); err == nil {
-		conf.DBName = fmt.Sprint(DatabaseTestNamePrefix, catalogName)
+		conf.DataBase.Name = fmt.Sprint(DatabaseTestNamePrefix, catalogName)
 	}
 
 	db := new(dbstorage.DB)
