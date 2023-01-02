@@ -46,12 +46,12 @@ func (suite *CreateUserTestSuite) TestUserCreate400() {
 	}`)
 	bodyReader := bytes.NewReader(jsonBody)
 
-	w := httptest.NewRecorder()
+	recorder := httptest.NewRecorder()
 	req, _ := http.NewRequest("POST", "/user/create/", bodyReader)
-	suite.router.ServeHTTP(w, req)
+	suite.router.ServeHTTP(recorder, req)
 
-	suite.Equal(400, w.Code)
-	// fmt.Println(w.Body.String())
+	suite.Equal(400, recorder.Code)
+	// fmt.Println(recorder.Body.String())
 }
 
 func (suite *CreateUserTestSuite) TestUserCreate201() {

@@ -8,7 +8,6 @@ import (
 )
 
 func OpenPostgres(host string, port string, user string, name string, tz string) *gorm.DB {
-	// fmt.Println("OpenPostgres", dbname)
 	// TODO check test env
 	db, err := connectPostgres(host, port, user, name, tz)
 	if err != nil {
@@ -26,13 +25,11 @@ func connectPostgres(host string, port string, user string, name string, tz stri
 		host, user, name, port, tz,
 	)
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
-	fmt.Println(err)
 
 	return db, err
 }
 
 func createDatabaseIfNotExists(host string, port string, user string, name string, tz string) {
-	// fmt.Println("CreateDatabaseIfNotExists", dbname)
 	dsn := fmt.Sprintf(
 		"host=%s user=%s port=%s sslmode=disable TimeZone=%s",
 		host, user, port, tz,

@@ -22,7 +22,6 @@ func (u *UserRepository) UserExistsByName(name string) (models.UserModel, error)
 	user := models.UserModel{}
 
 	result := u.db.Where("name = ?", name).Take(&user)
-	// fmt.Println(result.Error)
 
 	return user, result.Error
 }
@@ -31,15 +30,12 @@ func (u *UserRepository) GetUserById(id uint) (models.UserModel, error) {
 	user := models.UserModel{}
 
 	result := u.db.Where("id = ?", id).First(&user)
-	// fmt.Println(result.Error)
 
 	return user, result.Error
 }
 
 func (u *UserRepository) UserExistsByEmail(email string) bool {
 	result := u.db.Where("email = ?", email).First(&models.UserModel{})
-
-	// fmt.Println(result.Error)
 
 	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
 		return false
@@ -51,7 +47,6 @@ func (u *UserRepository) UserExistsByEmail(email string) bool {
 func (u *UserRepository) UpdateVerificationCode(user models.UserModel, code string) (models.UserModel, error) {
 	user.VerificationCode = code
 	result := u.db.Save(&user)
-	// fmt.Println(result.Error)
 
 	return user, result.Error
 }
@@ -64,7 +59,6 @@ func (u *UserRepository) IsUserVerifiedById(id uint) (bool, error) {
 	if result.Error != nil {
 		return false, result.Error
 	}
-	// fmt.Println(result.Error)
 
 	return user.Verified, result.Error
 }
@@ -77,7 +71,6 @@ func (u *UserRepository) UserVerify(userId uint, verificationCode string) (model
 	if result.Error != nil {
 		return user, result.Error
 	}
-	// fmt.Println(result.Error)
 
 	user.Verified = true
 	result = u.db.Save(&user)

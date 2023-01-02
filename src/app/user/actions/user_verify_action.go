@@ -19,7 +19,6 @@ func (a UserVerifyAction) Run(serializerData transformers.UserVerifyTransformer)
 	// }
 
 	user, err = handlers.UserVerifyHandler(serializerData.UserId, serializerData.VerificationCode)
-	// fmt.Println("\n", user_exists, err, "\n")
 	if err != nil {
 		return user, exceptions.UserVerifyError
 	}

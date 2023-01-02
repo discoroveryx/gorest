@@ -36,7 +36,6 @@ func (a UserCreateAction) Run(serializerData transformers.UserCreateTransformer)
 	}
 
 	_, err := handlers.UserExistsByNameHandler(serializerData.Name)
-	// fmt.Println("\n", user_exists, err, "\n")
 	if err == nil {
 		return user, exceptions.UserExistsByNameError
 	}

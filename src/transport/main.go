@@ -9,8 +9,6 @@ import (
 )
 
 func SetupRouter(debug bool) *gin.Engine {
-	// fmt.Println("I am the SetupRouter")
-
 	// router := gin.New()
 	// router.Use(CORSMiddlware())
 
